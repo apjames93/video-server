@@ -7,6 +7,7 @@ var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
 router.post('/signup', function(req, res, next){
+  console.log(req.query.userName);
 queries.findUserByUserName(req.query.userName)
 .then(function(user){
 if(user){
