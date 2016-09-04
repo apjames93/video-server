@@ -38,7 +38,8 @@ router.post('/login', function(req, res, next){
         }else{
           res.json({
             token : token,
-            userId: user.id
+            userId: user.id,
+            userName : user.userName
           });
         }
       });
