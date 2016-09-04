@@ -9,6 +9,13 @@ module.exports = {
 
   addUser : function(body){
     return knex('users').insert(body);
+  },
+  getUserData : function(id){
+      return knex('users').where({id: id});
+  },
+  getData : function(){
+    return knex('users')
   }
+
 
 };
