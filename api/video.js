@@ -1,5 +1,7 @@
 var express = require('express');
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var xoauth2 = require('xoauth2');
 var router = express.Router();
 var knex = require('../db/knex');
 var queries = require('../queries/apiQueries');
@@ -28,19 +30,34 @@ var queries = require('../queries/apiQueries');
 
 
   router.post('/email', function(req, res, next){
-var nodemailer = require("nodemailer"),
+console.log(req);
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'funnyvideo901@gmail.com',
+        pass: process.env.EMAIL_PASSWORD
+    }
+});
 
-  transport = nodemailer.createTransport('direct', {
-    debug: true, //this!!!
+var mailOptions = {
+    from: '<funnyvideo901@gmail.com>', 
+    to: 'apjames93@gmail.com',
+    subject: 'Hello ✔',
+    text: 'Hello world ?',
+    // html: '<iframe id="video" width="420" height="315" src="//www.youtube.com/embed/9B7te184ZpQ?rel=0" frameborder="0" allowfullscreen></iframe>'
+};
+
+// send mail with defined transport object
+transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+        return console.log(error);
+    }
+    console.log('Message sent: ' + info.response);
+    res.json({data: info.response});
+});
   });
-transport.sendMail({
-    from: "<apjames93@gmail.com>", // sender address
-    to: "apjames93@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world ✔", // plaintext body
-    html: "<b>Hello world ✔</b>" // html body
-}, console.error);
-  });
+
 
 
 
