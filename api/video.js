@@ -19,7 +19,7 @@ var queries = require('../queries/apiQueries');
     });
   });
   router.delete('/:id', function(req, res, next){
-      queries.deleteVideo(req.params.id, req.body.video_id)
+      queries.deleteVideo(req.query.users_id, req.query.video_id)
     .then(function(data){
         res.json({data: data});
     });
