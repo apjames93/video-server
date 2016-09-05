@@ -17,13 +17,18 @@ module.exports = {
     return knex('users');
   },
   addVideo : function(video, userid){
-    return knex('video').insert({
-      'youtube': video.youtube,
-      'reaction': video.reaction
-    }).returning('id')
-    .then(function(data){
-    return knex('users_videos').insert({users_id: userid, video_id : data[0]}).returning('id');
-  });
-}
+      return knex('video').insert({
+        'youtube': video.youtube,
+        'reaction': video.reaction
+      }).returning('id')
+      .then(function(data){
+      return knex('users_videos').insert({users_id: userid, video_id : data[0]}).returning('id');
+    });
+  },
+  deleteVideo : function(userid, videoid){
+    return knex('users_videos').del().where({'users_id': userid,'video_id': videoid }).then(function(data){
+      return knex('video').del().where({'id': videoid});
+    });
+  }
 
 };
