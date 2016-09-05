@@ -24,4 +24,26 @@ var queries = require('../queries/apiQueries');
         res.json({data: data});
     });
   });
+
+
+
+  router.post('/email', function(req, res, next){
+var nodemailer = require("nodemailer"),
+
+  transport = nodemailer.createTransport('direct', {
+    debug: true, //this!!!
+  });
+transport.sendMail({
+    from: "<apjames93@gmail.com>", // sender address
+    to: "apjames93@gmail.com", // list of receivers
+    subject: "Hello ✔", // Subject line
+    text: "Hello world ✔", // plaintext body
+    html: "<b>Hello world ✔</b>" // html body
+}, console.error);
+  });
+
+
+
+
+
 module.exports = router;
