@@ -5,38 +5,41 @@ var knex= require('../db/knex');
 var express = require('express');
 
 
-module.exports={
-    createUser : function(body){
-        var hash = bcrypt.hashSync(body.password, 8);
-        body.password = hash;
-        return queries.addUser(body)
-        .then(function(user){
-        return user.id;
+module.exports = {
+
+  createUser: function(body){
+    var hash = bcrypt.hashSync(body.password, 8);
+    body.password = hash;
+      return queries.addUser(body)
+    .then(function(user){
+      return user.id;
+    });
+  },
+
+  authMiddleWare: function(req, res, next){
+    var token = req.get('Authorization');
+    if(token) {
+      token = token.substring(7);
+      jwt.verify(token, process.env.TOKEN_SECRET, function(error, decoded) {
+        if(error) {
+          next();
+        } else {
+          req.user = decoded;
+          next();
+        }
       });
-    },
-      authMiddleWare : function(req, res, next){
-      var token = req.get('Authorization');
-      if(token){
-        token = token.substring(7);
-        jwt.verify(token, process.env.TOKEN_SECRET, function(error, decoded){
-          if(error){
-            next();
-          }else{
-            req.user = decoded;
-            next();
-          }
-        });
-      }else{
-        next();
-      }
-    },
-    ensureauthenticated : function(req, res, next){
-    if(req.user){
+    } else {
       next();
-    }else{
+    }
+  },
+
+  ensureauthenticated: function(req, res, next) {
+    if(req.user) {
+      next();
+    } else {
       res.json({
         message : "unauthorized"
       });
     }
   }
- };
+};
