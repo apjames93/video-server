@@ -5,6 +5,6 @@
 * Node.js
 * Knex.js
 * Express
-*JWT
-*bcrypt
-*nodemailer
+* JWT
+* bcrypt
+* nodemailer
