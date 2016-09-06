@@ -11,7 +11,7 @@ module.exports = {
     return knex('users').insert(body);
   },
   getUserData : function(id){
-      return knex('users').innerJoin('users_videos', 'users_id', 'users.id').innerJoin('video','video_id', 'video.id');
+      return knex('users').innerJoin('users_videos', 'users_id', 'users.id').innerJoin('video','video_id', 'video.id').where({'users_id': id});
   },
   getData : function(){
     return knex('users');
@@ -26,7 +26,8 @@ module.exports = {
     });
   },
   deleteVideo : function(userid, videoid){
-    return knex('users_videos').del().where({'users_id': userid,'video_id': videoid }).then(function(data){
+    return knex('users_videos').del().where({'users_id': userid, 'video_id': videoid }).then(function(data){
+      console.log(videoid);
       return knex('video').del().where({'id': videoid});
     });
   }

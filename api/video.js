@@ -1,4 +1,4 @@
-var express = require('express');
+var express = require('express'); 
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var xoauth2 = require('xoauth2');
@@ -12,7 +12,7 @@ var queries = require('../queries/apiQueries');
       res.json({user : data});
     });
   });
-  
+
   router.post('/', function(req, res, next){
     queries.addVideo(req.query, req.query.users_id[0])
     .then(function(data){
